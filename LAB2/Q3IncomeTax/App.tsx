@@ -45,7 +45,9 @@ const App = () =>{
     if (incomeAmmout <10000000) {
       taxAmout = incomeAmmout *0.1;
     }else if (incomeAmmout <= 50000000) {
-      taxAmout = 10000000 *0.1+(incomeAmmout -50000000) *0.3;
+      taxAmout = 10000000 *0.1+(incomeAmmout -10000) *0.2;
+    }else{
+      taxAmout = 10000000 *0.1+40000000 *0.2 +(incomeAmmout -50000000) *0.3;
     }
     setTax(`Income Tax: ${taxAmout.toFixed(2)}đ`);
   }
@@ -57,7 +59,7 @@ const App = () =>{
       style={style.input}
       placeholder='Enter your income'
       keyboardType='numeric'
-      value='income'
+      value={income}
       onChangeText={text => setIncome(text)}
       />
       <Button title='Calculate Tax' onPress={calculateTax}/>
