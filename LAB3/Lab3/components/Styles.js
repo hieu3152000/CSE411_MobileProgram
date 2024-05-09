@@ -73,4 +73,9 @@ export default StyleSheet.create({
     color: '#666',
     fontWeight: 'bold',
   },
+  detailButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end', // Adjust this according to your layout needs
+    marginTop: 10, // Add some spacing between the buttons and other content
+  },
 });

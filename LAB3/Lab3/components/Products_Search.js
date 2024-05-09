@@ -50,7 +50,7 @@ const ProductsSearch = () => {
           <Card key={item.id} style={Styles.card}>
             <Card.Cover source={{uri: item.thumbnail}} />
             <Card.Content>
-              <Title>Title: {item.title}</Title>
+              <Title style={Styles.title}>Title: {item.title}</Title>
               <Text>Description: {item.description}</Text>
               <Text>Price: {item.price}</Text>
               <Text>Discount: {item.discountPercentage} off</Text>
