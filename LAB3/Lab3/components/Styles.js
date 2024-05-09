@@ -56,12 +56,21 @@ export default StyleSheet.create({
     color: 'green',
   },
   header: {
-    fontSize: 20,
+    fontSize: 25,
     color: '#666',
+    fontWeight: 'bold',
+    paddingLeft: 2,
+    marginBottom: 5,
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between', // Adjust this according to your layout needs
     marginTop: 10, // Add some spacing between the buttons and other content
+  },
+  label: {
+    paddingLeft: 2,
+    fontSize: 20,
+    color: '#666',
+    fontWeight: 'bold',
   },
 });

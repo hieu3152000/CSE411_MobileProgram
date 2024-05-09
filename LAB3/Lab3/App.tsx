@@ -12,6 +12,8 @@ import {
 
 // Import the Product component, ensure the path matches the location of the Product.js file
 import Product from './components/Product'; // Assuming Product is stored in the components folder
+import ProductAdd from './components/Product_Add';
+import ProductsSearch from './components/Products_Search';
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,7 +26,7 @@ const App = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       
-          <Product /> 
+          <ProductsSearch/> 
       
       
     </SafeAreaView>
