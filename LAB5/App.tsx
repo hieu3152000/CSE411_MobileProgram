@@ -43,10 +43,10 @@ export default App =()=>{
          <Stack.Screen
               name="ServiceDetail"
               component={ServiceDetail}
-              options={({ navigation }) => ({
+              options={{
                 title: 'Service Details',
-                headerRight: () => <Delete onDelete={undefined} />
-              })}
+               
+              }}
             />
       <Stack.Screen name="UpdateService" component={UpdateService} options={{
         title: 'Update Service',
