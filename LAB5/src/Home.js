@@ -57,7 +57,7 @@ const Home = ({navigation}) => {
       <FlatList
         data={services}
         renderItem={renderServiceItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
       />
     </View>
   );

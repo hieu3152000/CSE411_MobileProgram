@@ -1,4 +1,4 @@
-// CustomerScreen.js
+// TransactionScreen.js
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -8,20 +8,20 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import axios from 'axios';
-//import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const Customer = () => {
-  const [customers, setCustomers] = useState([]);
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {format} from 'date-fns';
+const Transaction = ({navigation}) => {
+  const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCustomers = async () => {
+    const fetchTransactions = async () => {
       try {
-        const response = await axios.get(
-          'https://kami-backend-5rs0.onrender.com/customers',
+        const response = await fetch(
+          'https://kami-backend-5rs0.onrender.com/transactions',
         );
-        setCustomers(response.data);
+        const json = await response.json();
+        setTransactions(json);
       } catch (error) {
         console.error(error);
       } finally {
@@ -29,38 +29,47 @@ const Customer = () => {
       }
     };
 
-    fetchCustomers();
+    fetchTransactions();
   }, []);
 
+  const getTransactionDetail = async transactionId => {
+    await AsyncStorage.setItem('transactionId', transactionId);
+    navigation.navigate('TransactionDetail');
+  };
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
   }
-
   const renderServiceItem = ({item}) => (
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => getTransactionDetail(item._id)}>
       <View style={styles.customerDetails}>
         <View style={styles.row}>
+          <Text style={styles.id}>{item.id}</Text>
+          <Text style={styles.date}>
+            -{format(new Date(item.createdAt), 'yyyy-MM-dd HH:mm')}-
+          </Text>
+          <Text style={styles.status}>{item.status}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.phone}>
+            -{item.services.map(service => service.name).join('\n -')}
+          </Text>
+        </View>
+        <View style={styles.row}>
           <Text style={styles.label}>Customer: </Text>
-          <Text style={styles.name}>{item.name}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Phone: </Text>
-          <Text style={styles.phone}>{item.phone}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>Total Money: </Text>
-          <Text style={styles.totalSpent}>{item.totalSpent} đ</Text>
+          <Text style={styles.phone}>{item.customer.name}</Text>
         </View>
       </View>
       <View style={styles.loyaltyContainer}>
-        <Text style={styles.loyalty}>{item.loyalty}</Text>
+        <Text style={styles.loyalty}>{item.price} đ</Text>
       </View>
     </TouchableOpacity>
   );
   return (
     <View style={styles.container}>
       <FlatList
-        data={customers}
+        data={transactions}
         renderItem={renderServiceItem}
         keyExtractor={item => item._id}
       />
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
   },
-  name: {
+  id: {
     fontSize: 18,
   },
   phone: {
@@ -117,6 +126,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#E1ACAC',
   },
+  date: {
+    fontWeight: 'bold',
+  },
+  status: {color: '#E1ACAC', fontSize: 16, fontWeight: 'bold'},
 });
 
-export default Customer;
+export default Transaction;

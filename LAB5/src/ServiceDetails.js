@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ServiceDetail = ({route, navigation}) => {
   const {serviceId} = route.params;
@@ -14,6 +15,7 @@ const ServiceDetail = ({route, navigation}) => {
         const response = await axios.get(
           `https://kami-backend-5rs0.onrender.com/services/${serviceId}`,
         );
+        AsyncStorage.setItem('userToken', token);
         setService(response.data);
         setLoading(false);
       } catch (error) {

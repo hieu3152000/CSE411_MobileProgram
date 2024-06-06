@@ -20,7 +20,7 @@ export default App =()=>{
   return(
     
     <GestureHandlerRootView style={{ flex: 1 }}>
-       
+   
     <NavigationContainer>
       <Stack.Navigator  screenOptions={{
         headerStyle: {
