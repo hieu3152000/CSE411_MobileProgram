@@ -1,118 +1,130 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import { NavigationContainer, useNavigation} from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import LoginScreen from "./src/Login";
+import Home from "./src/Home";
+import AddService from "./src/AddService";
+import ServiceDetail from "./src/ServiceDetails";
+import UpdateService from "./src/UpdateService";
+
+import Delete from './src/Delete';
+import Transaction from './src/Transaction';
+import TransactionDetail from './src/TransactionDetails';
+import AddCustomer from './src/AddCustomer';
+import Customer from './src/Customer';
+import CustomerDetail from './src/CustomerDetail';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+  MenuProvider,
+} from 'react-native-popup-menu';
+import { Text, View } from 'react-native';
+import EditCustomer from './src/EditCustomer';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+const Stack = createNativeStackNavigator();
+const navigation =useNavigation();
+export default App =()=>{
+ 
+  return(
+<MenuProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+   
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName='Login'
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: '#E1ACAC',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
+      }}>
+      <Stack.Screen  name="Customer" component={Customer} 
+      options={{
+        title: 'Customer',
+        
+      }}/>
+      <Stack.Screen  name="CustomerDetail" component={CustomerDetail} 
+      options={{
+        title: 'Customer Detail',
+        headerRight: () => (
+          <Menu>
+            <MenuTrigger>
+              <Icon name="more-vert" size={25} color="#fff" />
+            </MenuTrigger>
+            <MenuOptions>
+            <MenuOption onSelect={()=>navigation.navigate("EditCustomer")}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+              <Icon name="edit" size={20} color="#000" style={{ marginRight: 10 }} />
+              <Text>Edit</Text>
+            </View>
+          </MenuOption>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+          <MenuOption>
+            <View style={{ flexDirection: 'row', alignItems: 'center', padding: 10 }}>
+              <Icon name="delete" size={20} color="#000" style={{ marginRight: 10 }} />
+              <Text>Delete</Text>
+            </View>
+          </MenuOption>
+              
+            </MenuOptions>
+          </Menu>
+        ),
+        
+      }}/>
+      <Stack.Screen  name="EditCustomer" component={EditCustomer} 
+      options={{
+        title: 'Customer',
+        
+      }}/>
+        {/* <Stack.Screen name="AddService" component={AddService} options={{
+        title: 'Service',
+       
+      }} />
+      
+         <Stack.Screen
+              name="ServiceDetail"
+              component={ServiceDetail}
+              options={{
+                title: 'Service Details',
+               
+              }}
+            />
+      <Stack.Screen name="UpdateService" component={UpdateService} options={{
+        title: 'Update Service',
+        
+      }} />
+       <Stack.Screen  name="Add customer" component={AddCustomer} 
+      options={{
+        title: 'My home',
+        
+      }}/>
+        <Stack.Screen name="Customer" component={Customer} options={{
+        title: 'Customer',
+       
+      }} />
+       <Stack.Screen
+              name="Transaction" component={Transaction} options={{
+                title: 'Transaction',
+               
+              }}
+            />
+      <Stack.Screen name="TransactionDetail" component={TransactionDetail} options={{
+        title: 'Transaction Detail',
+        
+      }} /> */}
+      </Stack.Navigator>
+    </NavigationContainer>
+    
+    </GestureHandlerRootView>
+  </MenuProvider>
+    )
   };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
-export default App;
